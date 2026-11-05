@@ -1,0 +1,40 @@
+function M=Mass(params,Teta,TetaDot)
+%% params
+m1=params(1);m2=params(2);m3=params(3);m4=params(4);m6=params(5);
+L1d=params(6);L2d=params(7);L3d=params(8);L4d=params(9);L6d=params(10);
+L1=params(11);L2=params(12);L4=params(13);L5=params(14);L6=params(15);
+I1=params(16);I2=params(17);I3=params(18);I4=params(19);I6=params(20);
+L1u=params(21);L2u=params(22);L4u=params(23);L5u=params(24);L6u=params(25);
+b1=params(26);b2=params(27);b3=params(28);
+mp2=params(29);g=params(30);
+%%
+teta=Teta;
+
+%%
+M=zeros(5);
+M(:,1)=[m2*(L1d^2)+I2+(2*m3+mp2+m4)*(L1^2)
+        ((mp2+m3+m4)*L1*L2+m3*L1*L2d)*cos(teta(2)-teta(1))
+        -mp2*L1*L1u*cos(teta(4)-teta(1))
+        -(m3*L1*L2u+mp2*L1*L2)*cos(teta(5)-teta(1))
+        m4*L1*L3d*cos(teta(5)-teta(1))];
+M(:,2)=[((mp2+m3+m4)*L1*L2+m3*L1*L2d)*cos(teta(2)-teta(1))
+        m3*(L2d^2)+I3+(m3+mp2+m4)*(L2^2)
+        -mp2*L2*L1u*cos(teta(4)-teta(2))
+        -(m3*L2*L2u+mp2*(L2^2))*cos(teta(5)-teta(2))
+        m4*L2*L3d*cos(teta(5)-teta(2))];
+M(:,3)=[-mp2*L1*L1u*cos(teta(4)-teta(1))
+        -mp2*L2*L1u*cos(teta(4)-teta(2))
+        mp2*(L1u^2)+I2
+        mp2*L2*L1u*cos(teta(5)-teta(4))
+        0];
+M(:,4)=[-(m3*L1*L2u+mp2*L1*L2)*cos(teta(5)-teta(1))
+        -(m3*L2*L2u+mp2*(L2^2))*cos(teta(5)-teta(2))
+        m2*L2*L1u*cos(teta(5)-teta(4))
+        m3*(L2u^2)+I3+mp2*(L2^2)
+        0];
+M(:,5)=[m4*L1*L3d*cos(teta(5)-teta(1))
+        m4*L2*L3d*cos(teta(5)-teta(2))
+        0
+        0
+        I4+m4*(L3d^2)];
+end

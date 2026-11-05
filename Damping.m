@@ -1,0 +1,41 @@
+function C=Damping(params,Teta,Teta_dot)
+%% params
+m1=params(1);m2=params(2);m3=params(3);m4=params(4);m6=params(5);
+L1d=params(6);L2d=params(7);L3d=params(8);L4d=params(9);L6d=params(10);
+L1=params(11);L2=params(12);L4=params(13);L5=params(14);L6=params(15);
+I1=params(16);I2=params(17);I4=params(18);I5=params(19);I6=params(20);
+L1u=params(21);L2u=params(22);L4u=params(23);L5u=params(24);L6u=params(25);
+b1=params(26);b2=params(27);b3=params(28);
+mp2=params(29);g=params(30);
+%% Teta
+teta=Teta;
+teta1_dot=Teta_dot(1);teta2_dot=Teta_dot(2);
+teta4_dot=Teta_dot(3);teta5_dot=Teta_dot(4);teta6_dot=Teta_dot(5);
+%%
+C=zeros(5);
+C(:,1)=[b1+b2
+       -b2+((mp2+m3+m4)*L1*L2+m3*L1*L2d*sin(teta(2)-teta(1)))*teta1_dot
+       -mp2*L1*L1u*sin(teta(3)-teta(1))*teta1_dot
+       -(mp2*L1*L2+m3*L1*L2u)*sin(teta(4)-teta(1))*teta1_dot
+       m4*L1*L3d*sin(teta(5)-teta(1))*teta1_dot];
+C(:,2)=[-b2+((mp2+m3+m4)*L1*L2+m3*L1*L2d)*sin(teta(2)-teta(1))*teta2_dot
+        b2+b3
+        -mp2*L2*L1u*sin(teta(3)-teta(2))*teta2_dot
+        -(m2*(L2^2)+m3*L2*L2u)*sin(teta(4)-teta(2))*teta2_dot
+        -b3+m4*L2*L3d*sin(teta(5)-teta(2))*teta2_dot];
+C(:,3)=[mp2*L1*L1u*sin(teta(3)-teta(1))*teta4_dot
+        mp2*L2*L1u*sin(teta(3)-teta(2))*teta4_dot
+        b2
+        -b2+mp2*L2*L1u*sin(teta(4)-teta(3))*teta4_dot
+        0];
+C(:,4)=[(mp2*L1*L2+m3*L1*L2u)*sin(teta(4)-teta(1))*teta5_dot
+        (mp2*(L2^2)+m3*L2*L2u)*sin(teta(4)-teta(2))*teta5_dot
+        -b2-mp2*L2*L1u*sin(teta(4)-teta(3))*teta5_dot
+        b2+b3
+        -b3];
+C(:,5)=[-m4*L1*L3d*sin(teta(5)-teta(1))*teta6_dot
+        -b3-m4*L2*L3d*sin(teta(5)-teta(2))*teta6_dot
+        0
+        -b3
+        2*b3];
+end
